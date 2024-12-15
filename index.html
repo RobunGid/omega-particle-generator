@@ -8,6 +8,33 @@
     <title>Ω Particle Generator Ω</title>
 </head>
 <body>
+    <form action="#" id="settings-form">
+        <fieldset>
+            <label for="clear-checkbox">Path visibility</label>
+            <input type="checkbox" name="clear-checkbox" id="clear-checkbox">
+        </fieldset>
+        <fieldset id="color-mode-fieldset">
+            <legend>Color settgings</legend>
+            <div>
+                <label for="color-mode-rainbow">Rainbow color mode</label>
+                <input checked type="radio" name="color-mode" id="color-mode-rainbow">
+            </div>
+            <div>            
+                <label for="color-mode-rainbow">Custom single-color mode</label>
+                <input type="radio" name="color-mode" id="color-mode-single-color">
+            </div>
+            <div>            
+                <label for="color-mode-rainbow">Custom multi-color mode</label>
+                <input type="radio" name="color-mode" id="color-mode-multi-color">
+            </div>
+
+
+
+        </fieldset>
+        <label for="color-input">Color</label>
+        <input type="color" name="color-input" id="color-input">
+
+    </form>
     <canvas id='canvas1'></canvas>
 
     <script src='script.js'></script>

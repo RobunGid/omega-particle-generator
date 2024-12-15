@@ -1,3 +1,11 @@
+let pathVisibility = document.querySelector('#clear-checkbox').checked;
+
+const settingsForm = document.querySelector('#settings-form');
+
+settingsForm.addEventListener('input', (event) => {
+    pathVisibility = document.querySelector('#clear-checkbox').checked
+})
+
 const canvas = document.querySelector("#canvas1");
 
 const ctx = canvas.getContext('2d');
@@ -21,18 +29,27 @@ window.addEventListener('resize', () => {
 })
 
 const mouse = {
-    x: undefined,
-    y: undefined,
+    x: 0,
+    y: 0,
 }
 
 canvas.addEventListener('click', (event) => {
-    [mouse.x, mouse.y] = [event.x, event.y];
-    // drawCircle();
-    particleInit(100);
+    const xOffset = canvas.getBoundingClientRect().x;
+    const yOffset = canvas.getBoundingClientRect().y;
+    mouse.x = event.clientX - xOffset;
+    mouse.y = event.clientY - yOffset;
+    particleInit(1);
 })
 
 canvas.addEventListener('mousemove', (event) => {
-    [mouse.x, mouse.y] = [event.x, event.y];
+    const xOffset = canvas.getBoundingClientRect().x;
+    const yOffset = canvas.getBoundingClientRect().y;
+
+    const scaleX = canvas.width / canvas.getBoundingClientRect().width;
+    const scaleY = canvas.height / canvas.getBoundingClientRect().height;
+
+    mouse.x = (event.clientX - xOffset) * scaleX;
+    mouse.y = (event.clientY - yOffset) * scaleY;
     particleInit(1);
 })
 
@@ -78,9 +95,11 @@ function handleParticles() {
             if (distance < 100) {
                 ctx.beginPath();
                 ctx.strokeStyle = item.color;
+                ctx.lineWidth = item2.size / 10;
                 ctx.moveTo(item.x, item.y);
                 ctx.lineTo(item2.x, item2.y);
                 ctx.stroke();
+                ctx.closePath();
             }
             }
         )
@@ -95,10 +114,12 @@ function handleParticles() {
 }
 
 function animate() {
-    
-    ctx.clearRect(0, 0, canvas.width, canvas.height);
-    // ctx.fillStyle = 'rgba(0,0,0,0.1)';
-    // ctx.fillRect(0, 0, canvas.width, canvas.height)
+    if (pathVisibility) {
+        ctx.fillStyle = 'rgba(0,0,0,0.1)';
+        ctx.fillRect(0, 0, canvas.width, canvas.height)
+    } else {
+        ctx.clearRect(0, 0, canvas.width, canvas.height); 
+    }
     handleParticles();
     requestAnimationFrame(animate);
 }
