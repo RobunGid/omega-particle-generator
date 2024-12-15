@@ -33,8 +33,7 @@ canvas.addEventListener('click', (event) => {
 
 canvas.addEventListener('mousemove', (event) => {
     [mouse.x, mouse.y] = [event.x, event.y];
-    particleInit(10);
-    // drawCircle();
+    particleInit(1);
 })
 
 class Particle {
@@ -61,8 +60,8 @@ class Particle {
     }
 }
 
-function particleInit(n) {
-    for (let i = 0; i < n; i++) {
+function particleInit(count) {
+    for (let i = 0; i < count; i++) {
         particlesArray.push(new Particle());
     }
 }
@@ -72,11 +71,27 @@ function handleParticles() {
     particlesArray.forEach((item, index) => {
         item.update();
         item.draw();
-        if (item.size < 0.5) {
-            particlesArray.splice(index, 1);
-            index--;
-        }
-    })
+        particlesArray.forEach((item2, index2) => {
+            const dx = item.x - item2.x;
+            const dy = item.y - item2.y;
+            const distance = Math.sqrt(dx ** 2 + dy ** 2);
+            if (distance < 100) {
+                ctx.beginPath();
+                ctx.strokeStyle = item.color;
+                ctx.moveTo(item.x, item.y);
+                ctx.lineTo(item2.x, item2.y);
+                ctx.stroke();
+            }
+            }
+        )
+
+
+    if (item.size < 0.5) {
+        particlesArray.splice(index, 1);
+        index--;
+    }
+    }
+)
 }
 
 function animate() {
