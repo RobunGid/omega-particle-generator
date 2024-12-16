@@ -77,5 +77,13 @@ animate();
 
 document.addEventListener('DOMContentLoaded', () => {
     checkIsMouseOnCanvas({ particleSpawnInterval, particleSpawn });
+})
 
+document.addEventListener('visibilitychange', (event) => {
+    console.log(document.hidden)
+    if (document.hidden) {
+        clearInterval(particleSpawnInterval);
+    } else {
+        checkIsMouseOnCanvas({particleSpawnInterval, particleSpawn});
+    }
 })
