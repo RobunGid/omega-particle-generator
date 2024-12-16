@@ -1,6 +1,6 @@
 import { canvas, mouse } from '../modules/constants.js';
 
-import { particleInit } from '../modules/particleInit.js';
+import { createParticle } from '../modules/createParticle.js';
 
 import { animate } from '../modules/animate.js';
 import { handleValidateSizeInputMin } from '../modules/handleValidateSizeInputMin.js';
@@ -48,7 +48,7 @@ canvas.addEventListener('mousemove', (event) => {
 })
 
 function particleSpawn() {
-    return setInterval(() => particleInit({ count: 1 }), 100 / validateFrequenceInputValue(frequenceInput.value))
+    return setInterval(() => createParticle({ count: 1 }), 100 / validateFrequenceInputValue(frequenceInput.value))
 }
 
 function particleRandomCenterSpawn() {
@@ -56,7 +56,7 @@ function particleRandomCenterSpawn() {
         mouse.x = canvas.width / 2 + getRandomInt(-150, 150);
         mouse.y = canvas.height / 2 + getRandomInt(-150, 150);
         
-        particleInit({ count: 1 });
+        createParticle({ count: 1 });
     }, 100 / validateFrequenceInputValue(frequenceInput.value))
 }
 
