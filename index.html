@@ -3,40 +3,67 @@
 <head>
     <meta charset='UTF-8'>
     <meta name='viewport' content='width=device-width, initial-scale=1.0'>
-    <link rel="stylesheet" href="style.css">
-    <link rel="shortcut icon" href="icon.png" type="image/x-icon">
+    <link rel="stylesheet" href="./src/main-page/style.css">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
+    <link rel="shortcut icon" href="src/assets/icon.png" type="image/x-icon">
     <title>Ω Particle Generator Ω</title>
 </head>
-<body>
-    <form action="#" id="settings-form">
-        <fieldset>
-            <label for="clear-checkbox">Path visibility</label>
-            <input type="checkbox" name="clear-checkbox" id="clear-checkbox">
-        </fieldset>
-        <fieldset id="color-mode-fieldset">
-            <legend>Color settgings</legend>
-            <div>
-                <label for="color-mode-rainbow">Rainbow color mode</label>
-                <input checked type="radio" name="color-mode" id="color-mode-rainbow">
-            </div>
-            <div>            
-                <label for="color-mode-rainbow">Custom single-color mode</label>
-                <input type="radio" name="color-mode" id="color-mode-single-color">
-            </div>
-            <div>            
-                <label for="color-mode-rainbow">Custom multi-color mode</label>
-                <input type="radio" name="color-mode" id="color-mode-multi-color">
-            </div>
+<body class="overflow-hidden">
+    <div id="settings-container" class="position-absolute bg-dark bg-gradient py-2 px-3 z-1" style="--bs-bg-opacity: .5; width: 320px;">
+        <form action="#" id="settings-form">
 
+            <fieldset class="mb-3">
+                <legend class="text-light" class="text-light">Visibility settings</legend>
+                <label for="clear-checkbox" class="text-light form-check-label">Path visibility</label>
+                <input type="checkbox" name="clear-checkbox" id="clear-checkbox" class="form-check-input">
+            </fieldset>
 
+            <fieldset id="color-mode-fieldset">
+                <legend class="text-light">Color settings</legend>
+                <div>
+                    <label for="color-mode-rainbow" class="text-light form-check-label">Rainbow color mode</label>
+                    <input checked type="radio" name="color-mode" id="color-mode-rainbow" data-key="rainbowColorMode" class="form-check-input">
+                </div>
+                <div>            
+                    <label for="color-mode-rainbow" class="text-light form-check-label">Custom single-color mode</label>
+                    <input type="radio" name="color-mode" id="color-mode-single-color" data-key="singleColorMode" class="form-check-input">
+                </div>
+                <div>            
+                    <label for="color-mode-rainbow" class="text-light form-check-label">Custom multi-color mode</label>
+                    <input type="radio" name="color-mode" id="color-mode-multi-color" data-key="multiColorMode" class="form-check-input">
+                </div>
+            </fieldset>
+            
+            <fieldset>
+                <legend class="text-light">Single color mode settings</legend>
+                <label for="color-input" class="text-light form-check-label">Color</label>
+                <input value='#ffffff' type="color" name="single-color-input" id="single-color-input">
+            </fieldset>
 
-        </fieldset>
-        <label for="color-input">Color</label>
-        <input type="color" name="color-input" id="color-input">
+            <fieldset>
+                <legend class="text-light">Multi color mode settings</legend>
+                <div>
+                    <label for="color-input" class="text-light form-check-label">Color 1</label>
+                    <input value='#ff0000' type="color" name="multi-color-input" id="multi-color-input-first">
+                </div>
 
-    </form>
-    <canvas id='canvas1'></canvas>
+                <div>
+                    <label for="color-input" class="text-light form-check-label">Color 2</label>
+                    <input value='#00ff00' type="color" name="multi-color-input" id="multi-color-input-second">
+                </div>
 
-    <script src='script.js'></script>
+                <div>
+                    <label for="color-input" class="text-light form-check-label">Color 3</label>
+                    <input value='#0000ff' type="color" name="multi-color-input" id="multi-color-input-third">
+                </div>
+
+                
+
+            </fieldset>
+        </form>
+    </div>
+
+    <canvas id='main-canvas' class="bg-black w-100 h-75 z-n1"></canvas>
+    <script type='module' src='./src/main-page/script.js'></script>
 </body>
 </html>
