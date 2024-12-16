@@ -6,6 +6,8 @@ import { animate } from '../modules/animate.js';
 import { getRandomInt } from '../modules/getRandomInt.js';
 import { handleValidateSizeInputMin } from '../modules/handleValidateSizeInputMin.js';
 import { handleValidateSizeInputMax } from '../modules/handleValidateSizeInputMax.js';
+import { handleValidateFrequenceInput } from '../modules/handleValidateFrequenceInput.js';
+import { validateFrequenceInputValue } from '../modules/validateFrequenceInputValue.js';
 
 canvas.width = window.innerWidth;
 canvas.height = window.innerHeight;
@@ -13,8 +15,19 @@ canvas.height = window.innerHeight;
 const sizeInputMin = document.querySelector("#size-input-min");
 const sizeInputMax = document.querySelector("#size-input-max");
 
-sizeInputMin.addEventListener('blur', (event) => handleValidateSizeInputMin(event));
-sizeInputMax.addEventListener('blur', (event) => handleValidateSizeInputMax(event));
+const frequenceInput = document.querySelector("#frequence-input");
+
+sizeInputMin.addEventListener('blur', () => handleValidateSizeInputMin());
+sizeInputMax.addEventListener('blur', () => handleValidateSizeInputMax());
+
+frequenceInput.addEventListener('blur', () => {
+    handleValidateFrequenceInput();
+})
+
+frequenceInput.addEventListener('input',() => {
+    clearInterval(particleSpawnInterval);
+    particleSpawnInterval = particleRandomCenterSpawn();
+})
 
 window.addEventListener('resize', () => {
     canvas.width = window.innerWidth;
@@ -38,11 +51,11 @@ function particleRandomCenterSpawn() {
         mouse.y = canvas.height / 2 + getRandomInt(-150, 150);
         
         particleInit({ count: 1 });
-    }, 20)
+    }, 30 - validateFrequenceInputValue(frequenceInput.value))
 }
 
 function particleSpawn() {
-    return setInterval(() => particleInit({ count: 1 }), 10)
+    return setInterval(() => particleInit({ count: 1 }), 51 - validateFrequenceInputValue(frequenceInput.value))
 }
 
 let particleSpawnInterval = particleRandomCenterSpawn();

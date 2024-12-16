@@ -1,4 +1,4 @@
-export function validateSizeInputMin(value) {
+export function validateSizeInputMinValue(value) {
     value = parseInt(value);
     const sizeInputMin = document.querySelector("#size-input-min");
     if (

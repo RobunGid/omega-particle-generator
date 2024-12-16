@@ -1,4 +1,4 @@
-export function validateSizeInputMax(value) {
+export function validateSizeInputMaxValue(value) {
     value = parseInt(value);
     const sizeInputMax = document.querySelector("#size-input-max");
     if (

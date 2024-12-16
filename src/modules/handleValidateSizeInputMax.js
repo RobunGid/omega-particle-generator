@@ -1,6 +1,6 @@
-import { validateSizeInputMax } from "./validateSizeInputMax.js";
+import { validateSizeInputMaxValue } from "./validateSizeInputMaxValue.js";
 
-export function handleValidateSizeInputMax(event) {
+export function handleValidateSizeInputMax() {
     const sizeInputMax = document.querySelector("#size-input-max");
-    sizeInputMax.value = validateSizeInputMax(sizeInputMax.value);
+    sizeInputMax.value = validateSizeInputMaxValue(sizeInputMax.value);
 }

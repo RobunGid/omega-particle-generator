@@ -1,6 +1,6 @@
-import { validateSizeInputMin } from "./validateSizeInputMin.js";
+import { validateSizeInputMinValue } from "./validateSizeInputMinValue.js";
 
-export function handleValidateSizeInputMin(event) {
+export function handleValidateSizeInputMin() {
     const sizeInputMin = document.querySelector("#size-input-min");
-    sizeInputMin.value = validateSizeInputMin(sizeInputMin.value);
+    sizeInputMin.value = validateSizeInputMinValue(sizeInputMin.value);
 }

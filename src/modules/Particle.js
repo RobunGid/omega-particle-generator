@@ -1,8 +1,8 @@
 import { getRandomInt } from './getRandomInt.js'
 import { mouse, canvas, ctx, colorModeValues } from './constants.js';
 import { hue } from './handleParticles.js';
-import { validateSizeInputMin } from './validateSizeInputMin.js';
-import { validateSizeInputMax } from './validateSizeInputMax.js';
+import { validateSizeInputMinValue } from './validateSizeInputMinValue.js';
+import { validateSizeInputMaxValue } from './validateSizeInputMaxValue.js';
 
 export class Particle {
     constructor() {
@@ -16,8 +16,8 @@ export class Particle {
             }
         };
 
-        const particleSizeMin = validateSizeInputMin(document.querySelector('#size-input-min').value);
-        const particleSizeMax = validateSizeInputMax(document.querySelector('#size-input-max').value);
+        const particleSizeMin = validateSizeInputMinValue(document.querySelector('#size-input-min').value);
+        const particleSizeMax = validateSizeInputMaxValue(document.querySelector('#size-input-max').value);
 
         [this.x, this.y] = [getRandomInt(0, canvas.width), getRandomInt(0, canvas.height)];
         [this.x, this.y] = [mouse.x, mouse.y];
