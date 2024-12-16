@@ -4,9 +4,17 @@ import { particleInit } from '../modules/particleInit.js';
 
 import { animate } from '../modules/animate.js';
 import { getRandomInt } from '../modules/getRandomInt.js';
+import { handleValidateSizeInputMin } from '../modules/handleValidateSizeInputMin.js';
+import { handleValidateSizeInputMax } from '../modules/handleValidateSizeInputMax.js';
 
 canvas.width = window.innerWidth;
 canvas.height = window.innerHeight;
+
+const sizeInputMin = document.querySelector("#size-input-min");
+const sizeInputMax = document.querySelector("#size-input-max");
+
+sizeInputMin.addEventListener('blur', (event) => handleValidateSizeInputMin(event));
+sizeInputMax.addEventListener('blur', (event) => handleValidateSizeInputMax(event));
 
 window.addEventListener('resize', () => {
     canvas.width = window.innerWidth;

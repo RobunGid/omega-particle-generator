@@ -36,29 +36,36 @@
             
             <fieldset>
                 <legend class="text-light">Single color mode settings</legend>
-                <label for="color-input" class="text-light form-check-label">Color</label>
+                <label for="single-color-input" class="text-light form-check-label">Color</label>
                 <input value='#ffffff' type="color" name="single-color-input" id="single-color-input">
             </fieldset>
 
             <fieldset>
                 <legend class="text-light">Multi color mode settings</legend>
                 <div>
-                    <label for="color-input" class="text-light form-check-label">Color 1</label>
+                    <label for="multi-color-input-first" class="text-light form-check-label">Color 1</label>
                     <input value='#ff0000' type="color" name="multi-color-input" id="multi-color-input-first">
                 </div>
 
                 <div>
-                    <label for="color-input" class="text-light form-check-label">Color 2</label>
+                    <label for="multi-color-input-second" class="text-light form-check-label">Color 2</label>
                     <input value='#00ff00' type="color" name="multi-color-input" id="multi-color-input-second">
                 </div>
 
                 <div>
-                    <label for="color-input" class="text-light form-check-label">Color 3</label>
+                    <label for="multi-color-input-third" class="text-light form-check-label">Color 3</label>
                     <input value='#0000ff' type="color" name="multi-color-input" id="multi-color-input-third">
                 </div>
+            </fieldset>
 
-                
-
+            <fieldset>
+                <legend class="text-light">Size settings</legend>
+                <div id="size-input-container" class="d-flex flex-column">
+                    <label for="size-input-min" class="text-light form-check-label">Particle size minimum</label>
+                    <input min="1" max="40" value="1" type="number" name="size-input-min" id="size-input-min">
+                    <label for="size-input-max" class="text-light form-check-label">Particle size maximum</label>
+                    <input min="1" max="40" value="20" type="number" name="size-input-max" id="size-input-max">
+                </div>
             </fieldset>
         </form>
     </div>
