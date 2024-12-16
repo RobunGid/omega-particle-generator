@@ -1,4 +1,4 @@
-import { canvas, mouse } from '../modules/constants.js';
+import { canvas, colorModeValues, mouse } from '../modules/constants.js';
 
 import { createParticle } from '../modules/createParticle.js';
 
@@ -9,6 +9,9 @@ import { handleValidateFrequenceInput } from '../modules/handleValidateFrequence
 import { validateFrequenceInputValue } from '../modules/validateFrequenceInputValue.js';
 import { checkIsMouseOnCanvas } from '../modules/checkIsMouseOnCanvas.js';
 import { getRandomInt } from '../modules/getRandomInt.js';
+import { hue } from '../modules/handleParticles.js';
+import { validateSizeInputMinValue } from '../modules/validateSizeInputMinValue.js';
+import { validateSizeInputMaxValue } from '../modules/validateSizeInputMaxValue.js';
 
 canvas.width = window.innerWidth;
 canvas.height = window.innerHeight;
@@ -47,24 +50,43 @@ canvas.addEventListener('mousemove', (event) => {
     mouse.y = (event.clientY - yOffset) * scaleY;
 })
 
-function particleSpawn() {
-    return setInterval(() => createParticle({ count: 1 }), 100 / validateFrequenceInputValue(frequenceInput.value))
-}
-
-function particleRandomCenterSpawn() {
+function particleSpawn( isInCenter ) {
     return setInterval(() => {
-        mouse.x = canvas.width / 2 + getRandomInt(-150, 150);
-        mouse.y = canvas.height / 2 + getRandomInt(-150, 150);
-        
-        createParticle({ count: 1 });
+        const colorMode = colorModeValues[Array.from(document.querySelectorAll('[name="color-mode"]')).find(item => item.checked).dataset.key];
+    
+        const singleColor = document.querySelector('#single-color-input').value;
+        const multiColors = {
+            colors: Array.from(document.querySelectorAll('[name="multi-color-input"]')).map(item => item.value),
+            getRandomColor() {
+                return this.colors[getRandomInt(0, this.colors.length - 1)]
+            }
+        };
+    
+        const color = {
+            rainbowColorMode: `hsl(${(hue + getRandomInt(-10, 10)) % 360}, 100%, 50%)`,
+            singleColorMode: singleColor,
+            multiColorMode: multiColors.getRandomColor(),
+        }[colorMode]
+    
+        const particleSizeMin = validateSizeInputMinValue(document.querySelector('#size-input-min').value);
+        const particleSizeMax = validateSizeInputMaxValue(document.querySelector('#size-input-max').value);
+    
+        const particleSize = getRandomInt(particleSizeMin, particleSizeMax)
+
+        if (isInCenter) {
+            mouse.x = canvas.width / 2 + getRandomInt(-150, 150);
+            mouse.y = canvas.height / 2 + getRandomInt(-150, 150);
+        }
+
+        createParticle({ count: 1, color, size: particleSize })
     }, 100 / validateFrequenceInputValue(frequenceInput.value))
 }
 
-let particleSpawnInterval = particleRandomCenterSpawn();
+let particleSpawnInterval = particleSpawn(true);
 
 canvas.addEventListener('mouseout', (event) => {
     clearInterval(particleSpawnInterval);
-    particleSpawnInterval = particleRandomCenterSpawn();
+    particleSpawnInterval = particleSpawn(true);
 
 })
 
