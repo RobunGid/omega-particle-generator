@@ -7,24 +7,41 @@
     <link rel="shortcut icon" href="src/assets/icon.png" type="image/x-icon">
     <title>Ω Particle Generator Ω</title>
 </head>
+<style>
+    ::-webkit-scrollbar {
+    width: 8px;
+}
+
+::-webkit-scrollbar-track {
+    background-color: rgba(0, 0, 0, 0.5);
+}
+
+::-webkit-scrollbar-thumb {
+    background-color: rgba(255, 255, 255, 0.1);
+}
+</style>
 <body class="overflow-hidden">
     <div id="settings-container" class="position-absolute bg-dark bg-gradient py-2 px-3 z-1 overflow-auto h-100" style="--bs-bg-opacity: .5; width: 320px;">
+        
         <div class="d-flex float-end">
-         <button type="button" id="close-settings-btn" class="btn-close btn-close-white" aria-label="Close"></button>
+            <button type="button" id="close-settings-btn" class="btn-close btn-close-white" aria-label="Close"></button>
         </div>
 
         <form action="#" id="settings-form">
+
             <fieldset class="mb-3">
                 <legend class="text-light" class="text-light">Visibility settings</legend>
                 <label for="clear-checkbox" class="text-light form-check-label">Path visibility</label>
                 <input type="checkbox" name="clear-checkbox" id="clear-checkbox" checked class="form-check-input">
             </fieldset>
+
             <hr class="border border-white border-1 opacity-75">
+
             <fieldset id="color-mode-fieldset">
                 <legend class="text-light">Color settings</legend>
 
-                <div class="d-flex flex-column">
-                    <label for="color-randomness-input" class="text-light form-check-label">Color randomness</label>
+                <div class="d-flex flex-column mb-2">
+                    <label for="color-randomness-input" class="text-light form-check-label mb-2">Color randomness</label>
                     <input type="number" min="0" max="100" value="10" name="color-randomness-input" id="color-randomness-input">
                     <span id="size-input-max-help" class="form-text text-light">0-100</span>
                 </div>
@@ -52,7 +69,7 @@
                 <legend class="text-light">Rainbow color mode settings</legend>
 
                 <div class="d-flex flex-column">
-                    <label for="rainbow-speed-change-input" class="text-light form-check-label">Rainbow color change speed</label>
+                    <label for="rainbow-speed-change-input" class="text-light form-check-label mb-2">Rainbow color change speed</label>
                     <input type="number" min="0" max="180" value="50" name="rainbow-speed-change-input" id="rainbow-speed-change-input">
                     <span id="size-input-max-help" class="form-text text-light">0-180</span>
                 </div>
@@ -81,7 +98,7 @@
                 <legend class="text-light">Multi color mode settings</legend>
 
                 <div class="d-flex gap-2 justify-content-between">
-g
+
                     <div class="d-flex gap-2 justify-content-center flex-column">
                         <label for="multi-color-input-first" class="text-light form-check-label text-center">Color 1</label>
                         <input value='#ff0000' type="color" name="multi-color-input" id="multi-color-input-first">
@@ -100,26 +117,41 @@ g
                 </div>
 
             </fieldset>
+
             <hr class="border border-white border-1 opacity-75">
+
             <fieldset>
                 <legend class="text-light">Size settings</legend>
+
                 <div id="size-input-container" class="d-flex flex-column">
-                    <label for="size-input-min" class="text-light form-check-label">Particle size minimum</label>
-                    <input min="1" max="40" value="1" type="number" name="size-input-min" id="size-input-min">
-                    <span id="size-input-min-help" class="form-text text-light">1-40</span>
-                    <label for="size-input-max" class="text-light form-check-label">Particle size maximum</label>
-                    <input min="1" max="40" value="20" type="number" name="size-input-max" id="size-input-max">
-                    <span id="size-input-max-help" class="form-text text-light">1-40</span>
+                    <div class="d-flex flex-column mb-2">
+                        <label for="size-input-min" class="text-light form-check-label">Particle size minimum</label>
+                        <input min="1" max="40" value="1" type="number" name="size-input-min" id="size-input-min">
+                        <span id="size-input-min-help" class="form-text text-light">1-40</span>
+                    </div>
+
+                    <div class="d-flex flex-column">
+                        <label for="size-input-max" class="text-light form-check-label">Particle size maximum</label>
+                        <input min="1" max="40" value="20" type="number" name="size-input-max" id="size-input-max">
+                        <span id="size-input-max-help" class="form-text text-light">1-40</span>
+                    </div>
+
+
                 </div>
+
             </fieldset>
+
             <hr class="border border-white border-1 opacity-75">
+
             <fieldset>
                 <legend class="text-light">Frequence settings</legend>
+                
                 <div id="frequence-input-container" class="d-flex flex-column">
                     <label for="frequence-input" class="text-light form-check-label">Frequence</label>
                     <input min="1" max="100" value="30" type="number" name="frequence-input" id="frequence-input">
                     <span id="frequency-input-help" class="form-text text-light">1-100</span>
                 </div>
+
             </fieldset>
         </form>
     </div>
