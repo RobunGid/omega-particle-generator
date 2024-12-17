@@ -36,8 +36,21 @@
                     <input type="radio" name="color-mode" id="color-mode-multi-color" data-key="multiColorMode" class="form-check-input">
                 </div>
             </fieldset>
+
+            <hr class="border border-white border-1 opacity-75">
+
+            <fieldset>
+                <legend class="text-light">Rainbow color mode settings</legend>
+                <div class="d-flex flex-column">
+                    <label for="rainbow-speed-change-input" class="text-light form-check-label">Rainbow color change speed</label>
+                    <input type="number" min="1" max="180" value="50" name="rainbow-speed-change-input" id="rainbow-speed-change-input">
+                    <span id="size-input-max-help" class="form-text text-light">1-180</span>
+                </div>
+            </fieldset>
+
             <hr class="border border-white border-1 opacity-75">
             <fieldset>
+
                 <legend class="text-light">Single color mode settings</legend>
                 <label for="single-color-input" class="text-light form-check-label">Color</label>
                 <input value='#ffffff' type="color" name="single-color-input" id="single-color-input">

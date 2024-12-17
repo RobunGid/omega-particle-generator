@@ -1,4 +1,4 @@
-import { canvas, colorModeValues, mouse } from '../modules/constants.js';
+import { canvas, colorModeValues, mouse, hsl } from '../modules/constants.js';
 
 import { createParticle } from '../modules/createParticle.js';
 
@@ -6,12 +6,13 @@ import { animate } from '../modules/animate.js';
 import { handleValidateSizeInputMin } from '../modules/handleValidateSizeInputMin.js';
 import { handleValidateSizeInputMax } from '../modules/handleValidateSizeInputMax.js';
 import { handleValidateFrequenceInput } from '../modules/handleValidateFrequenceInput.js';
+import { handleValidateRainbowSpeedChangeInput } from '../modules/handleValidateRainbowSpeedChangeInput.js';
 import { validateFrequenceInputValue } from '../modules/validateFrequenceInputValue.js';
 import { checkIsMouseOnCanvas } from '../modules/checkIsMouseOnCanvas.js';
 import { getRandomInt } from '../modules/getRandomInt.js';
-import { hue } from '../modules/handleParticles.js';
 import { validateSizeInputMinValue } from '../modules/validateSizeInputMinValue.js';
 import { validateSizeInputMaxValue } from '../modules/validateSizeInputMaxValue.js';
+import { validateRainbowSpeedChangeValue } from '../modules/validateRainbowSpeedChangeValue.js';
 
 canvas.width = window.innerWidth;
 canvas.height = window.innerHeight;
@@ -20,6 +21,7 @@ const sizeInputMin = document.querySelector("#size-input-min");
 const sizeInputMax = document.querySelector("#size-input-max");
 
 const frequenceInput = document.querySelector("#frequence-input");
+const rainbowSpeedChangeInput = document.querySelector("#rainbow-speed-change-input");
 
 sizeInputMin.addEventListener('blur', () => handleValidateSizeInputMin());
 sizeInputMax.addEventListener('blur', () => handleValidateSizeInputMax());
@@ -31,7 +33,17 @@ frequenceInput.addEventListener('blur', () => {
 
 frequenceInput.addEventListener('input',() => {
     clearInterval(particleSpawnInterval);
-    particleSpawnInterval = particleRandomCenterSpawn();
+    particleSpawnInterval = particleSpawn(true);
+})
+
+rainbowSpeedChangeInput.addEventListener('blur', () => {
+    checkIsMouseOnCanvas({ particleSpawnInterval, particleSpawn })
+    handleValidateRainbowSpeedChangeInput();
+})
+
+rainbowSpeedChangeInput.addEventListener('input',() => {
+    clearInterval(particleSpawnInterval);
+    particleSpawnInterval = particleSpawn(true);
 })
 
 window.addEventListener('resize', () => {
@@ -61,9 +73,9 @@ function particleSpawn( isInCenter = false ) {
                 return this.colors[getRandomInt(0, this.colors.length - 1)]
             }
         };
-    
+        hsl.hue += validateRainbowSpeedChangeValue(rainbowSpeedChangeInput.value) / 100;
         const color = {
-            rainbowColorMode: `hsl(${(hue + getRandomInt(-10, 10)) % 360}, 100%, 50%)`,
+            rainbowColorMode: hsl.hslText(),
             singleColorMode: singleColor,
             multiColorMode: multiColors.getRandomColor(),
         }[colorMode]

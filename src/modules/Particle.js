@@ -1,8 +1,5 @@
 import { getRandomInt } from './getRandomInt.js'
 import { mouse, canvas, ctx, colorModeValues } from './constants.js';
-import { hue } from './handleParticles.js';
-import { validateSizeInputMinValue } from './validateSizeInputMinValue.js';
-import { validateSizeInputMaxValue } from './validateSizeInputMaxValue.js';
 
 export class Particle {
     constructor({ color, size, speedX, speedY }) {

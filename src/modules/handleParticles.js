@@ -1,8 +1,6 @@
-export let hue = 0;
 import { particlesArray, ctx } from "./constants.js";
 
 export function handleParticles() {
-    hue += 0.5;
     particlesArray.forEach((item, index) => {
         item.update();
         item.draw();

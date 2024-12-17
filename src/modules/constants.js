@@ -14,3 +14,10 @@ export const colorModeValues = {
     singleColorMode: 'singleColorMode',
     multiColorMode: 'multiColorMode',
 }
+
+export const hsl = {
+    hue: 0,
+    saturation: 100,
+    lightness: 50,
+    hslText: function() {return `hsl(${this.hue}, ${this.saturation}%, ${this.lightness}%)`}
+}
