@@ -11,6 +11,8 @@ import { getRandomInt } from '../modules/getRandomInt.js';
 import { validateSizeInputMinValue } from '../modules/validateSizeInputMinValue.js';
 import { validateSizeInputMaxValue } from '../modules/validateSizeInputMaxValue.js';
 import { validateRainbowSpeedChangeValue } from '../modules/validateRainbowSpeedChangeValue.js';
+import { handleValidateColorRandomness } from '../modules/handleValidateColorRandomness.js';
+import { validateColorRandomnessValue } from '../modules/validateColorRandomnessValue.js';
 
 canvas.width = window.innerWidth;
 canvas.height = window.innerHeight;
@@ -20,11 +22,13 @@ const sizeInputMax = document.querySelector("#size-input-max");
 
 const frequenceInput = document.querySelector("#frequence-input");
 const rainbowSpeedChangeInput = document.querySelector("#rainbow-speed-change-input");
+const colorRandomnessInput = document.querySelector("#color-randomness-input");
 
 sizeInputMin.addEventListener('blur', () => handleValidateSizeInputMin());
 sizeInputMax.addEventListener('blur', () => handleValidateSizeInputMax());
 
 let intervalTime = 100 - validateFrequenceInputValue(frequenceInput.value);
+let colorRandomness = validateColorRandomnessValue(colorRandomnessInput.value);
 
 frequenceInput.addEventListener('blur', () => {
     intervalTime = 100 - validateFrequenceInputValue(frequenceInput.value);
@@ -39,8 +43,12 @@ rainbowSpeedChangeInput.addEventListener('blur', () => {
     handleValidateRainbowSpeedChangeInput();
 })
 
-rainbowSpeedChangeInput.addEventListener('input',() => {
+colorRandomnessInput.addEventListener('input', () => {
+    colorRandomness = validateColorRandomnessValue(colorRandomnessInput.value);
+})
 
+colorRandomnessInput.addEventListener('blur', () => {
+    handleValidateColorRandomness();
 })
 
 window.addEventListener('resize', () => {
@@ -77,7 +85,10 @@ function animate(time) {
                 return this.colors[getRandomInt(0, this.colors.length - 1)]
             }
         };
+
+        hsl.colorRandomness = colorRandomness;
         hsl.hue += validateRainbowSpeedChangeValue(rainbowSpeedChangeInput.value) / 100;
+        
         const color = {
             rainbowColorMode: hsl.hslText(),
             singleColorMode: singleColor,
@@ -94,7 +105,7 @@ function animate(time) {
             mouse.y = canvas.height / 2 + getRandomInt(-150, 150);
         }
     
-        createParticle({ count: 1 + Math.round(validateFrequenceInputValue(frequenceInput.value) / 20), color, size: particleSize });
+        createParticle({ count: 1 + Math.round(validateFrequenceInputValue(frequenceInput.value) / 20), color, particleSize,  });
 
         lastTime = time;
     }

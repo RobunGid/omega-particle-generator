@@ -23,55 +23,83 @@
             <hr class="border border-white border-1 opacity-75">
             <fieldset id="color-mode-fieldset">
                 <legend class="text-light">Color settings</legend>
+
+                <div class="d-flex flex-column">
+                    <label for="color-randomness-input" class="text-light form-check-label">Color randomness</label>
+                    <input type="number" min="0" max="100" value="10" name="color-randomness-input" id="color-randomness-input">
+                    <span id="size-input-max-help" class="form-text text-light">0-100</span>
+                </div>
+
                 <div>
                     <label for="color-mode-rainbow" class="text-light form-check-label">Rainbow color mode</label>
                     <input checked type="radio" name="color-mode" id="color-mode-rainbow" data-key="rainbowColorMode" class="form-check-input">
                 </div>
+
                 <div>            
                     <label for="color-mode-rainbow" class="text-light form-check-label">Custom single-color mode</label>
                     <input type="radio" name="color-mode" id="color-mode-single-color" data-key="singleColorMode" class="form-check-input">
                 </div>
+
                 <div>            
                     <label for="color-mode-rainbow" class="text-light form-check-label">Custom multi-color mode</label>
                     <input type="radio" name="color-mode" id="color-mode-multi-color" data-key="multiColorMode" class="form-check-input">
                 </div>
+
             </fieldset>
 
             <hr class="border border-white border-1 opacity-75">
 
             <fieldset>
                 <legend class="text-light">Rainbow color mode settings</legend>
+
                 <div class="d-flex flex-column">
                     <label for="rainbow-speed-change-input" class="text-light form-check-label">Rainbow color change speed</label>
-                    <input type="number" min="1" max="180" value="50" name="rainbow-speed-change-input" id="rainbow-speed-change-input">
-                    <span id="size-input-max-help" class="form-text text-light">1-180</span>
+                    <input type="number" min="0" max="180" value="50" name="rainbow-speed-change-input" id="rainbow-speed-change-input">
+                    <span id="size-input-max-help" class="form-text text-light">0-180</span>
                 </div>
+
             </fieldset>
 
             <hr class="border border-white border-1 opacity-75">
+
             <fieldset>
-
                 <legend class="text-light">Single color mode settings</legend>
-                <label for="single-color-input" class="text-light form-check-label">Color</label>
-                <input value='#ffffff' type="color" name="single-color-input" id="single-color-input">
+
+                <div class="d-flex gap-2 justify-content-start">
+                    
+                    <div class="d-flex gap-2 justify-content-center flex-column">
+                        <label for="single-color-input" class="text-light form-check-label text-center">Color</label>
+                        <input value='#ffffff' type="color" name="single-color-input" id="single-color-input">
+                    </div>
+                
+                </div>
+
             </fieldset>
+            
             <hr class="border border-white border-1 opacity-75">
+
             <fieldset>
                 <legend class="text-light">Multi color mode settings</legend>
-                <div>
-                    <label for="multi-color-input-first" class="text-light form-check-label">Color 1</label>
-                    <input value='#ff0000' type="color" name="multi-color-input" id="multi-color-input-first">
+
+                <div class="d-flex gap-2 justify-content-between">
+g
+                    <div class="d-flex gap-2 justify-content-center flex-column">
+                        <label for="multi-color-input-first" class="text-light form-check-label text-center">Color 1</label>
+                        <input value='#ff0000' type="color" name="multi-color-input" id="multi-color-input-first">
+                    </div>
+    
+                    <div class="d-flex gap-2 justify-content-center flex-column">
+                        <label for="multi-color-input-second" class="text-light form-check-label text-center">Color 2</label>
+                        <input value='#00ff00' type="color" name="multi-color-input" id="multi-color-input-second">
+                    </div>
+    
+                    <div class="d-flex gap-2 justify-content-center flex-column">
+                        <label for="multi-color-input-third" class="text-light form-check-label text-center">Color 3</label>
+                        <input value='#0000ff' type="color" name="multi-color-input" id="multi-color-input-third">
+                    </div>
+
                 </div>
 
-                <div>
-                    <label for="multi-color-input-second" class="text-light form-check-label">Color 2</label>
-                    <input value='#00ff00' type="color" name="multi-color-input" id="multi-color-input-second">
-                </div>
-
-                <div>
-                    <label for="multi-color-input-third" class="text-light form-check-label">Color 3</label>
-                    <input value='#0000ff' type="color" name="multi-color-input" id="multi-color-input-third">
-                </div>
             </fieldset>
             <hr class="border border-white border-1 opacity-75">
             <fieldset>

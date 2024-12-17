@@ -1,3 +1,5 @@
+import { getRandomInt } from "./getRandomInt.js";
+
 export const canvas = document.querySelector("#main-canvas");
 
 export const ctx = canvas.getContext('2d');
@@ -16,8 +18,9 @@ export const colorModeValues = {
 }
 
 export const hsl = {
+    colorRandomness: 10,
     hue: 0,
     saturation: 100,
     lightness: 50,
-    hslText: function() {return `hsl(${this.hue}, ${this.saturation}%, ${this.lightness}%)`}
+    hslText: function() {return `hsl(${this.hue + getRandomInt(-this.colorRandomness, this.colorRandomness)}, ${this.saturation}%, ${this.lightness}%)`}
 }
