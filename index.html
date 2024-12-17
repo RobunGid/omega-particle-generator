@@ -9,9 +9,12 @@
     <title>Ω Particle Generator Ω</title>
 </head>
 <body class="overflow-hidden">
-    <div id="settings-container" class="position-absolute bg-dark bg-gradient py-2 px-3 z-1" style="--bs-bg-opacity: .5; width: 320px;">
-        <form action="#" id="settings-form">
+    <div id="settings-container" class="position-absolute bg-dark bg-gradient py-2 px-3 z-1 overflow-auto h-100" style="--bs-bg-opacity: .5; width: 320px;">
+        <div class="d-flex float-end">
+         <button type="button" id="close-settings-btn" class="btn-close btn-close-white" aria-label="Close"></button>
+        </div>
 
+        <form action="#" id="settings-form">
             <fieldset class="mb-3">
                 <legend class="text-light" class="text-light">Visibility settings</legend>
                 <label for="clear-checkbox" class="text-light form-check-label">Path visibility</label>
