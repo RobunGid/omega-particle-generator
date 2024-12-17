@@ -91,7 +91,7 @@ function particleSpawn( isInCenter = false ) {
         }
 
         createParticle({ count: 1, color, size: particleSize })
-    }, 100 / validateFrequenceInputValue(frequenceInput.value))
+    }, parseInt(1000 / validateFrequenceInputValue(frequenceInput.value)))
 }
 
 let particleSpawnInterval = particleSpawn(true);
