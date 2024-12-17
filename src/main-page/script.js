@@ -20,6 +20,10 @@ canvas.height = window.innerHeight;
 const sizeInputMin = document.querySelector("#size-input-min");
 const sizeInputMax = document.querySelector("#size-input-max");
 
+const closeSettingsButton = document.querySelector("#close-settings-btn");
+const closeSettingsButtonContainer = document.querySelector("#close-settings-button-container");
+const settingsContainer = document.querySelector("#settings-container");
+
 const frequenceInput = document.querySelector("#frequence-input");
 const rainbowSpeedChangeInput = document.querySelector("#rainbow-speed-change-input");
 const colorRandomnessInput = document.querySelector("#color-randomness-input");
@@ -146,3 +150,11 @@ document.addEventListener('mousemove', (event) => {
     mouse.y = event.y;
     
 }, {once: true})
+
+settingsContainer.addEventListener('show.bs.collapse', (event) => {
+    closeSettingsButtonContainer.style.left = '350px';
+})
+
+settingsContainer.addEventListener('hide.bs.collapse', (event) => {
+    closeSettingsButtonContainer.style.left = '7px';
+})
