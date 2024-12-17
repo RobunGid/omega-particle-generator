@@ -50,7 +50,7 @@ canvas.addEventListener('mousemove', (event) => {
     mouse.y = (event.clientY - yOffset) * scaleY;
 })
 
-function particleSpawn( isInCenter ) {
+function particleSpawn( isInCenter = false ) {
     return setInterval(() => {
         const colorMode = colorModeValues[Array.from(document.querySelectorAll('[name="color-mode"]')).find(item => item.checked).dataset.key];
     
