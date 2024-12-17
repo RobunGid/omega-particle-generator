@@ -1,14 +1,12 @@
-import { canvas, colorModeValues, mouse, hsl } from '../modules/constants.js';
+import { canvas, colorModeValues, mouse, hsl, ctx } from '../modules/constants.js';
 
 import { createParticle } from '../modules/createParticle.js';
-
-import { animate } from '../modules/animate.js';
+import { handleParticles } from '../modules/handleParticles.js'
 import { handleValidateSizeInputMin } from '../modules/handleValidateSizeInputMin.js';
 import { handleValidateSizeInputMax } from '../modules/handleValidateSizeInputMax.js';
 import { handleValidateFrequenceInput } from '../modules/handleValidateFrequenceInput.js';
 import { handleValidateRainbowSpeedChangeInput } from '../modules/handleValidateRainbowSpeedChangeInput.js';
 import { validateFrequenceInputValue } from '../modules/validateFrequenceInputValue.js';
-import { checkIsMouseOnCanvas } from '../modules/checkIsMouseOnCanvas.js';
 import { getRandomInt } from '../modules/getRandomInt.js';
 import { validateSizeInputMinValue } from '../modules/validateSizeInputMinValue.js';
 import { validateSizeInputMaxValue } from '../modules/validateSizeInputMaxValue.js';
@@ -26,24 +24,23 @@ const rainbowSpeedChangeInput = document.querySelector("#rainbow-speed-change-in
 sizeInputMin.addEventListener('blur', () => handleValidateSizeInputMin());
 sizeInputMax.addEventListener('blur', () => handleValidateSizeInputMax());
 
+let intervalTime = 100 - validateFrequenceInputValue(frequenceInput.value);
+
 frequenceInput.addEventListener('blur', () => {
-    checkIsMouseOnCanvas({ particleSpawnInterval, particleSpawn })
+    intervalTime = 100 - validateFrequenceInputValue(frequenceInput.value);
     handleValidateFrequenceInput();
 })
 
 frequenceInput.addEventListener('input',() => {
-    clearInterval(particleSpawnInterval);
-    particleSpawnInterval = particleSpawn(true);
+    intervalTime = 100 - validateFrequenceInputValue(frequenceInput.value);
 })
 
 rainbowSpeedChangeInput.addEventListener('blur', () => {
-    checkIsMouseOnCanvas({ particleSpawnInterval, particleSpawn })
     handleValidateRainbowSpeedChangeInput();
 })
 
 rainbowSpeedChangeInput.addEventListener('input',() => {
-    clearInterval(particleSpawnInterval);
-    particleSpawnInterval = particleSpawn(true);
+
 })
 
 window.addEventListener('resize', () => {
@@ -62,8 +59,15 @@ canvas.addEventListener('mousemove', (event) => {
     mouse.y = (event.clientY - yOffset) * scaleY;
 })
 
-function particleSpawn( isInCenter = false ) {
-    return setInterval(() => {
+let isInCenter = true;
+let lastTime = 0;
+
+function animate(time) {
+    if (lastTime === 0) {
+        lastTime = time;
+    }
+
+    if (time - lastTime >= intervalTime) {
         const colorMode = colorModeValues[Array.from(document.querySelectorAll('[name="color-mode"]')).find(item => item.checked).dataset.key];
     
         const singleColor = document.querySelector('#single-color-input').value;
@@ -84,40 +88,50 @@ function particleSpawn( isInCenter = false ) {
         const particleSizeMax = validateSizeInputMaxValue(document.querySelector('#size-input-max').value);
     
         const particleSize = getRandomInt(particleSizeMin, particleSizeMax)
-
+    
         if (isInCenter) {
             mouse.x = canvas.width / 2 + getRandomInt(-150, 150);
             mouse.y = canvas.height / 2 + getRandomInt(-150, 150);
         }
+    
+        createParticle({ count: 1 + Math.round(validateFrequenceInputValue(frequenceInput.value) / 20), color, size: particleSize });
 
-        createParticle({ count: 1, color, size: particleSize })
-    }, parseInt(1000 / validateFrequenceInputValue(frequenceInput.value)))
+        lastTime = time;
+    }
+    
+    const pathVisibility = document.querySelector('#clear-checkbox').checked;
+
+    if (pathVisibility) {
+        ctx.fillStyle = 'rgba(0,0,0,0.1)';
+        ctx.fillRect(0, 0, canvas.width, canvas.height)
+    } else {
+        ctx.clearRect(0, 0, canvas.width, canvas.height); 
+    }
+
+    handleParticles();
+    requestAnimationFrame(animate);
 }
 
-let particleSpawnInterval = particleSpawn(true);
+requestAnimationFrame(animate);
 
-canvas.addEventListener('mouseout', (event) => {
-    clearInterval(particleSpawnInterval);
-    particleSpawnInterval = particleSpawn(true);
-
+canvas.addEventListener('mouseover', () => {
+    isInCenter = false;
+})
+canvas.addEventListener('mouseout', () => {
+    isInCenter = true;
 })
 
-canvas.addEventListener('mouseover', (event) => {
-    clearInterval(particleSpawnInterval);
-    particleSpawnInterval = particleSpawn();
-})
 
-animate();
+document.addEventListener('mousemove', (event) => {
 
-document.addEventListener('DOMContentLoaded', () => {
-    checkIsMouseOnCanvas({ particleSpawnInterval, particleSpawn });
-})
+    const settingsElement = document.querySelector('#settings-container');
+    const settingsElementRect = settingsElement.getBoundingClientRect();
+    
+    if (event.x < settingsElementRect.right && event.y < settingsElementRect.bottom) return
+    
+    isInCenter = false;
 
-document.addEventListener('visibilitychange', (event) => {
-    console.log(document.hidden)
-    if (document.hidden) {
-        clearInterval(particleSpawnInterval);
-    } else {
-        checkIsMouseOnCanvas({particleSpawnInterval, particleSpawn});
-    }
-})
+    mouse.x = event.x;
+    mouse.y = event.y;
+    
+}, {once: true})
