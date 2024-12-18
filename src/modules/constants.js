@@ -17,12 +17,13 @@ export const colorModeValues = {
     multiColorMode: 'multiColorMode',
 }
 
-export const hsl = {
-    colorRandomness: 10,
+export const currentColor = {
     hue: 0,
-    saturation: 100,
+    saturation: 50,
     lightness: 50,
-    hslText: function() {return `hsl(${this.hue + getRandomInt(-this.colorRandomness, this.colorRandomness)}, ${this.saturation}%, ${this.lightness}%)`}
+    getHsl() {
+        return `hsl(${this.hue}, ${this.saturation}%, ${this.lightness}%)`
+    }
 }
 
 export const defaultInputValues = {

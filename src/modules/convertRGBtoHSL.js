@@ -6,8 +6,6 @@ export function convertRGBtoHSL(RGBstring) {
     const redDec = Number(`0x${redHex}`);
     const greenDec = Number(`0x${greenHex}`);
     const blueDec = Number(`0x${blueHex}`);
-
-    console.log(redDec, greenDec, blueDec)
     
     const primaryRed = redDec / 255;
     const primaryGreen = greenDec / 255;
@@ -22,24 +20,34 @@ export function convertRGBtoHSL(RGBstring) {
     const lightnessString = `${Math.round(lightness * 100)}%`;
     const lightnessValue = Math.round(lightness * 100);
 
-    const saturation = difference == 0 ? 0 : difference / (1 - Math.abs(2 * lightness - 1));
+    let saturation;
+
+    if (difference == 0) {
+        saturation = 0;
+    } else {
+        saturation = lightnessValue <= 50 ? difference / (CMAX + CMIN) : difference / (2 - (CMAX + CMIN));
+    };
     const saturationString = `${Math.round(saturation * 100)}%`;
     const saturationValue = Math.round(saturation * 100);
 
     let hue;
-
-    switch(CMAX){
+    if (difference == 0 ) {
+        hue = 0
+    }
+     else {switch(CMAX){
         case primaryRed: 
             hue = 60 * ((primaryGreen - primaryBlue) / difference % 6);
+            if (hue < 0) hue += 360;
             break;
 
         case primaryGreen:
-            hue = 60 * ((primaryBlue - primaryGreen) / difference + 2);
+            hue = 60 * ((primaryBlue - primaryRed) / difference + 2);
             break;
 
         case primaryBlue:
-            hue = 60 * ((primaryRed - primaryGreen) / difference + 4)
+            hue = 60 * ((primaryRed - primaryGreen) / difference + 4);
             break;
+    }
     }
 
     const hueValue = Math.round(hue);

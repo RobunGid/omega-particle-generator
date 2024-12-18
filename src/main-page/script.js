@@ -1,4 +1,4 @@
-import { canvas, colorModeValues, mouse, hsl, ctx, defaultInputValues } from '../modules/constants.js';
+import { canvas, colorModeValues, mouse, ctx, defaultInputValues, currentColor } from '../modules/constants.js';
 
 import { createParticle } from '../modules/createParticle.js';
 import { handleParticles } from '../modules/handleParticles.js'
@@ -7,10 +7,13 @@ import { getRandomInt } from '../modules/getRandomInt.js';
 import { handleValidateInput } from '../modules/handleValidateInput.js'
 import { validateInputValue } from '../modules/validateInputValue.js';
 
-import { convertRGBtoHSL } from '../modules/convertRGBtoHSL.js';
+import { convertRGBtoHSL } from '../modules/convertRGBtoHSL.js'
 
 canvas.width = window.innerWidth;
 canvas.height = window.innerHeight;
+
+const singleColorInput = document.querySelector('#single-color-input');
+const multiColorInputs = document.querySelectorAll('[name="multi-color-input"]');
 
 const sizeInputMin = document.querySelector("#size-input-min");
 const sizeInputMax = document.querySelector("#size-input-max");
@@ -28,6 +31,8 @@ sizeInputMax.addEventListener('blur', (event) => handleValidateInput({ event, de
 let intervalTime = 100 - validateInputValue({ inputElement: frequenceInput, defaultValue: defaultInputValues['frequence'] });
 let colorRandomness = validateInputValue({ inputElement: colorRandomnessInput, defaultValue: defaultInputValues['colorRandomness'] });
 let rainbowColorChangeSpeed = validateInputValue({ inputElement: rainbowColorSpeedChangeInput, defaultValue: defaultInputValues['rainbowColorChangeSpeed'] });
+
+let colorMode = colorModeValues[Array.from(document.querySelectorAll('[name="color-mode"]')).find(item => item.checked).dataset.key];
 
 frequenceInput.addEventListener('blur', (event) => {
     handleValidateInput({ event, defaultValue: defaultInputValues['frequence'] });
@@ -51,6 +56,12 @@ colorRandomnessInput.addEventListener('input', (event) => {
 
 colorRandomnessInput.addEventListener('blur', (event) => {
     handleValidateInput({ event, defaultValue: 30 });
+})
+
+document.querySelectorAll('[name="color-mode"]').forEach(element => {
+    element.addEventListener('input', (event) => {
+        colorMode = event.target.dataset.key;
+    })
 })
 
 window.addEventListener('resize', () => {
@@ -78,31 +89,36 @@ function animate(time) {
     }
 
     if (time - lastTime >= intervalTime) {
-        
-        const colorMode = colorModeValues[Array.from(document.querySelectorAll('[name="color-mode"]')).find(item => item.checked).dataset.key];
-    
-        const singleColor = document.querySelector('#single-color-input').value;
-        const multiColors = {
-            colors: Array.from(document.querySelectorAll('[name="multi-color-input"]')).map(item => item.value),
-            getRandomColor() {
-                return this.colors[getRandomInt(0, this.colors.length - 1)]
-            }
-        };
-
-        hsl.colorRandomness = colorRandomness;
-        
-        const color = {
+        const colorModes = {
             rainbowColorMode: () => {
-                hsl.hue += validateInputValue({ inputElement: rainbowColorSpeedChangeInput, defaultValue: 10 }) / 100;
-                return hsl.hslText()
+                currentColor.hue += validateInputValue({ inputElement: rainbowColorSpeedChangeInput, defaultValue: 10 }) / 50;
+                currentColor.hue += getRandomInt(-colorRandomness, colorRandomness);
+                currentColor.hue = currentColor.hue % 360;
+                return currentColor.getHsl()
             },
             singleColorMode: () => {
-                return singleColor
+                const color = convertRGBtoHSL(singleColorInput.value);
+                currentColor.hue = color.hue;
+                currentColor.hue += getRandomInt(-colorRandomness, colorRandomness);
+                currentColor.hue = currentColor.hue % 360;
+                currentColor.saturation = color.saturation;
+                currentColor.lightness = color.lightness;
+                currentColor.lightness += getRandomInt(-colorRandomness, colorRandomness) * 0.25;
+                return currentColor.getHsl();
             },
             multiColorMode: () => {
-                return multiColors.getRandomColor()
-            },
-        }[colorMode]()
+                const color = convertRGBtoHSL(multiColorInputs[getRandomInt(0, multiColorInputs.length - 1)].value);
+                currentColor.hue = color.hue;
+                currentColor.hue += getRandomInt(-colorRandomness, colorRandomness);
+                currentColor.hue = currentColor.hue % 360;
+                currentColor.saturation = color.saturation;
+                currentColor.lightness = color.lightness;
+                currentColor.lightness += getRandomInt(-colorRandomness, colorRandomness) * 0.25;
+                return currentColor.getHsl();
+            }
+        }
+        
+        const color = colorModes[colorMode]();
     
         const particleSizeMin = validateInputValue({ inputElement: sizeInputMin, defaultValue: 1 });
         const particleSizeMax = validateInputValue({ inputElement: sizeInputMax, defaultValue: 20 });
