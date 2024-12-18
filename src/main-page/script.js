@@ -7,6 +7,8 @@ import { getRandomInt } from '../modules/getRandomInt.js';
 import { handleValidateInput } from '../modules/handleValidateInput.js'
 import { validateInputValue } from '../modules/validateInputValue.js';
 
+import { convertRGBtoHSL } from '../modules/convertRGBtoHSL.js';
+
 canvas.width = window.innerWidth;
 canvas.height = window.innerHeight;
 
@@ -88,13 +90,19 @@ function animate(time) {
         };
 
         hsl.colorRandomness = colorRandomness;
-        hsl.hue += validateInputValue({ inputElement: rainbowColorSpeedChangeInput, defaultValue: 10 }) / 100;
         
         const color = {
-            rainbowColorMode: hsl.hslText(),
-            singleColorMode: singleColor,
-            multiColorMode: multiColors.getRandomColor(),
-        }[colorMode]
+            rainbowColorMode: () => {
+                hsl.hue += validateInputValue({ inputElement: rainbowColorSpeedChangeInput, defaultValue: 10 }) / 100;
+                return hsl.hslText()
+            },
+            singleColorMode: () => {
+                return singleColor
+            },
+            multiColorMode: () => {
+                return multiColors.getRandomColor()
+            },
+        }[colorMode]()
     
         const particleSizeMin = validateInputValue({ inputElement: sizeInputMin, defaultValue: 1 });
         const particleSizeMax = validateInputValue({ inputElement: sizeInputMax, defaultValue: 20 });
