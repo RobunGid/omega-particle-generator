@@ -1,5 +1,3 @@
-import { getRandomInt } from "./getRandomInt.js";
-
 export const canvas = document.querySelector("#main-canvas");
 
 export const ctx = canvas.getContext('2d');
