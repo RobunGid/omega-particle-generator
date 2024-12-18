@@ -1,18 +1,11 @@
-import { canvas, colorModeValues, mouse, hsl, ctx } from '../modules/constants.js';
+import { canvas, colorModeValues, mouse, hsl, ctx, defaultInputValues } from '../modules/constants.js';
 
 import { createParticle } from '../modules/createParticle.js';
 import { handleParticles } from '../modules/handleParticles.js'
-import { handleValidateSizeInputMin } from '../modules/handleValidateSizeInputMin.js';
-import { handleValidateSizeInputMax } from '../modules/handleValidateSizeInputMax.js';
-import { handleValidateFrequenceInput } from '../modules/handleValidateFrequenceInput.js';
-import { handleValidateRainbowSpeedChangeInput } from '../modules/handleValidateRainbowSpeedChangeInput.js';
-import { validateFrequenceInputValue } from '../modules/validateFrequenceInputValue.js';
 import { getRandomInt } from '../modules/getRandomInt.js';
-import { validateSizeInputMinValue } from '../modules/validateSizeInputMinValue.js';
-import { validateSizeInputMaxValue } from '../modules/validateSizeInputMaxValue.js';
-import { validateRainbowSpeedChangeValue } from '../modules/validateRainbowSpeedChangeValue.js';
-import { handleValidateColorRandomness } from '../modules/handleValidateColorRandomness.js';
-import { validateColorRandomnessValue } from '../modules/validateColorRandomnessValue.js';
+
+import { handleValidateInput } from '../modules/handleValidateInput.js'
+import { validateInputValue } from '../modules/validateInputValue.js';
 
 canvas.width = window.innerWidth;
 canvas.height = window.innerHeight;
@@ -20,39 +13,42 @@ canvas.height = window.innerHeight;
 const sizeInputMin = document.querySelector("#size-input-min");
 const sizeInputMax = document.querySelector("#size-input-max");
 
-const closeSettingsButton = document.querySelector("#close-settings-btn");
 const closeSettingsButtonContainer = document.querySelector("#close-settings-button-container");
 const settingsContainer = document.querySelector("#settings-container");
 
 const frequenceInput = document.querySelector("#frequence-input");
-const rainbowSpeedChangeInput = document.querySelector("#rainbow-speed-change-input");
+const rainbowColorSpeedChangeInput = document.querySelector("#rainbow-speed-change-input");
 const colorRandomnessInput = document.querySelector("#color-randomness-input");
 
-sizeInputMin.addEventListener('blur', () => handleValidateSizeInputMin());
-sizeInputMax.addEventListener('blur', () => handleValidateSizeInputMax());
+sizeInputMin.addEventListener('blur', (event) => handleValidateInput({ event, defaultValue: defaultInputValues['particleSizeMin']} ));
+sizeInputMax.addEventListener('blur', (event) => handleValidateInput({ event, defaultValue: defaultInputValues['particleSizeMax']}));
 
-let intervalTime = 100 - validateFrequenceInputValue(frequenceInput.value);
-let colorRandomness = validateColorRandomnessValue(colorRandomnessInput.value);
+let intervalTime = 100 - validateInputValue({ inputElement: frequenceInput, defaultValue: defaultInputValues['frequence'] });
+let colorRandomness = validateInputValue({ inputElement: colorRandomnessInput, defaultValue: defaultInputValues['colorRandomness'] });
+let rainbowColorChangeSpeed = validateInputValue({ inputElement: rainbowColorSpeedChangeInput, defaultValue: defaultInputValues['rainbowColorChangeSpeed'] });
 
-frequenceInput.addEventListener('blur', () => {
-    intervalTime = 100 - validateFrequenceInputValue(frequenceInput.value);
-    handleValidateFrequenceInput();
+frequenceInput.addEventListener('blur', (event) => {
+    handleValidateInput({ event, defaultValue: defaultInputValues['frequence'] });
 })
 
-frequenceInput.addEventListener('input',() => {
-    intervalTime = 100 - validateFrequenceInputValue(frequenceInput.value);
+frequenceInput.addEventListener('input', (event) => {
+    intervalTime = 100 - validateInputValue({ inputElement: frequenceInput, defaultValue: defaultInputValues['frequence'] });
 })
 
-rainbowSpeedChangeInput.addEventListener('blur', () => {
-    handleValidateRainbowSpeedChangeInput();
+rainbowColorSpeedChangeInput.addEventListener('input', () => {
+    rainbowColorChangeSpeed = validateInputValue({ inputElement: rainbowColorSpeedChangeInput, defaultValue: defaultInputValues['rainbowColorChangeSpeed'] });
 })
 
-colorRandomnessInput.addEventListener('input', () => {
-    colorRandomness = validateColorRandomnessValue(colorRandomnessInput.value);
+rainbowColorSpeedChangeInput.addEventListener('blur', (event) => {
+    handleValidateInput({ event, defaultValue: defaultInputValues['rainbowColorChangeSpeed']});
 })
 
-colorRandomnessInput.addEventListener('blur', () => {
-    handleValidateColorRandomness();
+colorRandomnessInput.addEventListener('input', (event) => {
+    colorRandomness = validateInputValue({ inputElement: colorRandomnessInput, defaultValue: 30 });
+})
+
+colorRandomnessInput.addEventListener('blur', (event) => {
+    handleValidateInput({ event, defaultValue: 30 });
 })
 
 window.addEventListener('resize', () => {
@@ -80,6 +76,7 @@ function animate(time) {
     }
 
     if (time - lastTime >= intervalTime) {
+        
         const colorMode = colorModeValues[Array.from(document.querySelectorAll('[name="color-mode"]')).find(item => item.checked).dataset.key];
     
         const singleColor = document.querySelector('#single-color-input').value;
@@ -91,7 +88,7 @@ function animate(time) {
         };
 
         hsl.colorRandomness = colorRandomness;
-        hsl.hue += validateRainbowSpeedChangeValue(rainbowSpeedChangeInput.value) / 100;
+        hsl.hue += validateInputValue({ inputElement: rainbowColorSpeedChangeInput, defaultValue: 10 }) / 100;
         
         const color = {
             rainbowColorMode: hsl.hslText(),
@@ -99,8 +96,8 @@ function animate(time) {
             multiColorMode: multiColors.getRandomColor(),
         }[colorMode]
     
-        const particleSizeMin = validateSizeInputMinValue(document.querySelector('#size-input-min').value);
-        const particleSizeMax = validateSizeInputMaxValue(document.querySelector('#size-input-max').value);
+        const particleSizeMin = validateInputValue({ inputElement: sizeInputMin, defaultValue: 1 });
+        const particleSizeMax = validateInputValue({ inputElement: sizeInputMax, defaultValue: 20 });
     
         const particleSize = getRandomInt(particleSizeMin, particleSizeMax)
     
@@ -109,7 +106,7 @@ function animate(time) {
             mouse.y = canvas.height / 2 + getRandomInt(-150, 150);
         }
     
-        createParticle({ count: 1 + Math.round(validateFrequenceInputValue(frequenceInput.value) / 20), color, particleSize,  });
+        createParticle({ count: 1 + Math.round(validateInputValue({ inputElement: frequenceInput, defaultValue: 30}) / 20), color, particleSize });
 
         lastTime = time;
     }

@@ -24,3 +24,11 @@ export const hsl = {
     lightness: 50,
     hslText: function() {return `hsl(${this.hue + getRandomInt(-this.colorRandomness, this.colorRandomness)}, ${this.saturation}%, ${this.lightness}%)`}
 }
+
+export const defaultInputValues = {
+    colorRandomness: 10,
+    rainbowColorChangeSpeed: 50,
+    particleSizeMin: 1,
+    particleSizeMax: 20,
+    frequence: 30,
+}
