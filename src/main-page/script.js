@@ -140,7 +140,7 @@ function animate(time) {
     const pathVisibility = document.querySelector('#clear-checkbox').checked;
 
     if (pathVisibility) {
-        ctx.fillStyle = 'rgba(0,0,0,0.1)';
+        ctx.fillStyle = 'rgba(0,0,0,0.09)';
         ctx.fillRect(0, 0, canvas.width, canvas.height)
     } else {
         ctx.clearRect(0, 0, canvas.width, canvas.height); 
