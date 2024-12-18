@@ -31,6 +31,7 @@ sizeInputMax.addEventListener('blur', (event) => handleValidateInput({ event, de
 let intervalTime = 100 - validateInputValue({ inputElement: frequenceInput, defaultValue: defaultInputValues['frequence'] });
 let colorRandomness = validateInputValue({ inputElement: colorRandomnessInput, defaultValue: defaultInputValues['colorRandomness'] });
 let rainbowColorChangeSpeed = validateInputValue({ inputElement: rainbowColorSpeedChangeInput, defaultValue: defaultInputValues['rainbowColorChangeSpeed'] });
+let particleCount = 1 + Math.round(validateInputValue({ inputElement: frequenceInput, defaultValue: 30}) / 50);
 
 let colorMode = colorModeValues[Array.from(document.querySelectorAll('[name="color-mode"]')).find(item => item.checked).dataset.key];
 
@@ -39,6 +40,7 @@ frequenceInput.addEventListener('blur', (event) => {
 })
 
 frequenceInput.addEventListener('input', (event) => {
+    particleCount = 1 + Math.round(validateInputValue({ inputElement: frequenceInput, defaultValue: 30}) / 50);
     intervalTime = 100 - validateInputValue({ inputElement: frequenceInput, defaultValue: defaultInputValues['frequence'] });
 })
 
@@ -91,7 +93,7 @@ function animate(time) {
     if (time - lastTime >= intervalTime) {
         const colorModes = {
             rainbowColorMode: () => {
-                currentColor.hue += validateInputValue({ inputElement: rainbowColorSpeedChangeInput, defaultValue: 10 }) / 50;
+                currentColor.hue += rainbowColorChangeSpeed / 50;
                 currentColor.hue += getRandomInt(-colorRandomness, colorRandomness);
                 currentColor.hue = currentColor.hue % 360;
                 return currentColor.getHsl()
@@ -130,7 +132,7 @@ function animate(time) {
             mouse.y = canvas.height / 2 + getRandomInt(-150, 150);
         }
     
-        createParticle({ count: 1 + Math.round(validateInputValue({ inputElement: frequenceInput, defaultValue: 30}) / 20), color, particleSize });
+        createParticle({ count: particleCount, color, particleSize });
 
         lastTime = time;
     }
