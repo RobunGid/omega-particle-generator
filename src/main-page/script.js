@@ -84,6 +84,8 @@ canvas.addEventListener('mousemove', (event) => {
 
 let isInCenter = true;
 let lastTime = 0;
+ctx.fillStyle = 'rgb(42,42,42)';
+ctx.fillRect(0, 0, canvas.width, canvas.height)
 
 function animate(time) {
     if (lastTime === 0) {
@@ -143,7 +145,8 @@ function animate(time) {
         ctx.fillStyle = 'rgba(0,0,0,0.09)';
         ctx.fillRect(0, 0, canvas.width, canvas.height)
     } else {
-        ctx.clearRect(0, 0, canvas.width, canvas.height); 
+        ctx.fillStyle = 'rgb(5,5,5)';
+        ctx.fillRect(0, 0, canvas.width, canvas.height)
     }
 
     handleParticles();
