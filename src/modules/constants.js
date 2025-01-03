@@ -9,6 +9,8 @@ export const mouse = {
     y: null,
 }
 
+export const touches = [];
+
 export const colorModeValues = {
     rainbowColorMode: 'rainbowColorMode',
     singleColorMode: 'singleColorMode',
