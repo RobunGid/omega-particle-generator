@@ -3,6 +3,8 @@
 Particle Simulation Website  
 This website features a particle simulation on a dark screen for relaxation. Built with native JavaScript, HTML, and Bootstrap.
 
+__https://robungid.github.io/omega-particle-generator/__
+
 ## Features
 
 - Interactive particle simulation
